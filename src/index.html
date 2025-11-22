@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Featured Message Board DApp // SynthWave Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- NEON SYNTHWAVE THEME --- */
+        :root {
+            --bg-color-dark: #1A0033;
+            --card-bg: #2B2B4A;
+            --text-color-light: #E0E0FF;
+            --primary-neon: #FF0099; /* Pink */
+            --secondary-neon: #00FFFF; /* Cyan */
+            --success-color: #66FF66; /* Lime Green */
+            --error-color: #FF4500;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+            /* Retro Grid Background */
+            background-image: radial-gradient(circle, #2A004A 1px, transparent 1px), radial-gradient(circle, #3A005A 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 95%;
+            margin-bottom: 60px;
+            padding: 30px; 
+            background: var(--card-bg);
+            border-radius: 12px;
+            /* Neon Border Glow */
+            box-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon) inset;
+            border: 2px solid var(--primary-neon);
+        }
+
+        h1 { 
+            font-weight: 700; 
+            font-size: 2.2rem;
+            color: var(--secondary-neon);
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 5px var(--secondary-neon); 
+            border-bottom: 3px solid var(--primary-neon);
+            padding-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        h2 { 
+            color: var(--primary-neon); 
+            font-weight: 700; 
+            margin-top: 25px; 
+            margin-bottom: 15px; 
+            font-size: 1.4rem;
+            border-bottom: 1px dashed var(--secondary-neon); 
+            padding-bottom: 5px;
+            text-shadow: 0 0 3px var(--primary-neon);
+        }
+
+        /* Status Styling */
+        #status {
+            padding: 10px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--secondary-neon);
+            color: var(--secondary-neon);
+        }
+
+        /* Message Display */
+        #currentMessage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color); 
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 4px;
+            border: 1px solid var(--success-color);
+            text-shadow: 0 0 3px var(--success-color);
+        }
+
+        /* Buttons and Inputs */
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--bg-color-dark);
+        }
+        button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 0 12px white; 
+        }
+
+        #setMessageButton { 
+            background-color: var(--primary-neon); 
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+        #likeMessageButton { 
+            background-color: var(--secondary-neon); 
+            box-shadow: 0 0 8px var(--secondary-neon);
+        }
+        
+        input[type="text"] {
+            padding: 12px; 
+            width: calc(100% - 24px);
+            border: 1px solid var(--secondary-neon);
+            border-radius: 3px; 
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--text-color-light);
+            margin-top: 10px;
+            font-size: 1rem;
+            box-shadow: 0 0 5px var(--secondary-neon) inset;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+             .container { padding: 20px; }
+             h1 { font-size: 1.8rem; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><< FEATURED MESSAGE BOARD // LOCAL NODE >></h1>
+        
+        <div id="status">Connecting...</div>
+
+        <h2>📡 Data Stream (Read)</h2>
+        <p>Current Message:</p> 
+        <span id="currentMessage"> > AWAITING DATA FETCH...</span>
+
+        <p>Last Updated By: <span id="lastUpdater" style="color: var(--primary-neon);">Loading...</span></p>
+        <p>Likes: <span id="likeCount" style="color: var(--success-color);">0</span></p>
+
+        <hr style="border-color: var(--card-bg); margin: 30px 0;">
+
+        <h2>💾 Data Injection (Write)</h2>
+        <p>Set New Message:</p>
+        <input type="text" id="newMessage" placeholder="> Enter new message (MAX 256 CHARS)...">
+        <button id="setMessageButton" onclick="setMessage()">TRANSMIT MESSAGE 🔴</button>
+        <br><br>
+
+        <h2>🌟 Operational Funding (Payable)</h2>
+        <button id="likeMessageButton" onclick="likeMessage()">CONTRIBUTE 0.0001 ETH</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
